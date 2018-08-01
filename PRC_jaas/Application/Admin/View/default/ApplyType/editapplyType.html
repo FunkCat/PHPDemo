@@ -1,0 +1,43 @@
+<extend name="Public/base" />
+<!-- 管理员{:L("_USER_GROUP_")}新增和编辑页面 -->
+<block name="body">
+
+	<div class="main-title">
+		<h2>{$title}</h2>
+	</div>
+    <div class="with-padding">
+        <form action="{:U('ApplyType/writeApplyType')}" enctype="application/x-www-form-urlencoded" method="POST"
+              class="form-horizontal" id="con"  onsubmit="return SubmitCK()">
+             <div class="form-item">
+                <label for="auth-title" class="item-label">施药方式ID (不可编辑！)</label>
+                <div class="controls">
+                    <input type="text" readonly="readonly"  class="text input-large  form-control form-input-width" name="applyId" value="{$applyType.applyId}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">施药方式名  (名称不得大于10个字符！)</label>
+                <div class="controls">
+                    <input id="applyName" type="text" name="applyName" class="text input-large  form-control form-input-width" value="{$applyType.applyName}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">施药方式浸入深度</label>
+                <div class="controls">
+                    <input id="deepth" type="text"  name="deepth"  class="text input-large  form-control form-input-width" value="{$applyType.deepth}"/>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <button type="submit" class="btn ajax-post" target-form="form-horizontal" onclick="return false;">{:L("_SURE_WITH_SPACE_")}</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+            </div>
+        </form>
+    </div>
+
+<block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:U('Base/index')}');
+</script>
+</block>

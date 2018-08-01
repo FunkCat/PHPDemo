@@ -1,0 +1,111 @@
+<extend name="Public/base" />
+<!-- 管理员{:L("_USER_GROUP_")}新增和编辑页面 -->
+<block name="body">
+<script type="text/javascript" src="__JS__/jquery-1.9.0.js"></script>
+<!-- <script type="text/javascript" src="__JS__/validate.js"></script> -->
+<script type="text/javascript">
+function al(){
+	console.log("123");
+}
+
+function SubmitCK() {
+	var dig=^\+?[1-9][0-9]*$; //正整数
+	var p=^[1-9][0-9]$;//(0-100)整数
+	var txt=^.{1,10}$;//1-10字符以下文本
+	var num=^[0-9]*$;//数字
+	var dou=^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$;//正浮点数 
+	var flag=false;
+	if (!txt.test($("#pesticideName").val())) {
+		alert("农药名称不得大于10个字符！")
+		flag = false;
+	}
+	if (!dou.test($("#useNumber").val())) {
+		alert("使用量为正小数！")
+		flag = false;
+	}
+	if (!txt.test($("#activePrinciple").val())) {
+		alert("农药名称不得大于10个字符！")
+		flag = false;
+	}
+	if (!p.test($("#activePrinciple_p").val())) {
+		alert("有效成分比例为1-99的整数！")
+		flag = false;
+	}
+	if (!dig.test($("#adsorptionCoeff").val())) {
+		alert("有效成分比例为1-99的整数！")
+		flag = false;
+	}
+	if (!dig.test($("#halfTime").val())) {
+		alert("有效成分比例为1-99的整数！")
+		flag = false;
+	}
+	if(flag){
+		
+	}
+	return flag;
+	}
+</script>
+	<div class="main-title">
+		<h2>{$title}</h2>
+	</div>
+<!--  <button  onclick="al()">123</button> -->
+    <div class="with-padding">
+        <form action="{:U('Base/writePesticide')}" enctype="application/x-www-form-urlencoded" method="POST"
+              class="form-horizontal" id="con"  onsubmit="return SubmitCK()">
+             <div class="form-item">
+                <label for="auth-title" class="item-label">农药ID (不可编辑！)</label>
+                <div class="controls">
+                    <input type="text" readonly="readonly"  class="text input-large  form-control form-input-width" name="pesticideId" value="{$pesticide.pesticideId}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">农药名  (名称不得大于10个字符！)</label>
+                <div class="controls">
+                    <input id="pesticideName" type="text" name="pesticideName" class="text input-large  form-control form-input-width" value="{$pesticide.pesticideName}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">农药使用量kg/m2 (使用量为正小数！)</label>
+                <div class="controls">
+                    <input id="useNumber" type="text" name="useNumber" class="text input-large  form-control form-input-width" value="{$pesticide.useNumber}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label"  >有效成分名  (名称不得大于10个字符！)</label>
+                <div class="controls">
+                    <input id="activePrinciple" type="text" name="activePrinciple" class="text input-large  form-control form-input-width" value="{$pesticide.activePrinciple}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">有效成分含量% (有效成分比例为0-100的整数)</label>
+                <div class="controls">
+                    <input id="activePrinciple_p" type="text"  name="activePrinciple_p"  class="text input-large  form-control form-input-width" value="{$pesticide.activePrinciple_p}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">土壤吸附系数Koc (土壤系数为正整数！)</label>
+                <div class="controls">
+                    <input id="adsorptionCoeff" type="text"  name="adsorptionCoeff"  class="text input-large  form-control form-input-width" value="{$pesticide.adsorptionCoeff}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">土壤中半衰期days (土壤半衰期为正整数！)</label>
+                <div class="controls">
+                    <input id="halfTime" type="text"   name="halfTime" class="text input-large  form-control form-input-width" value="{$pesticide.halfTime}"/>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <button type="submit" class="btn ajax-post" target-form="form-horizontal" onclick="return false;">{:L("_SURE_WITH_SPACE_")}</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+            </div>
+        </form>
+    </div>
+
+<block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:U('Base/index')}');
+</script>
+</block>

@@ -1,0 +1,49 @@
+<extend name="Public/base" />
+<!-- 管理员{:L("_USER_GROUP_")}新增和编辑页面 -->
+<block name="body">
+
+	<div class="main-title">
+		<h2>{$title}</h2>
+	</div>
+    <div class="with-padding">
+        <form action="{:U('Soil/writeSoil')}" enctype="application/x-www-form-urlencoded" method="POST"
+              class="form-horizontal" id="con"  onsubmit="return SubmitCK()">
+             <div class="form-item">
+                <label for="auth-title" class="item-label">土壤ID (不可编辑！)</label>
+                <div class="controls">
+                    <input type="text" readonly="readonly"  class="text input-large  form-control form-input-width" name="soilId" value="{$soil.soilId}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">土壤名  (名称不得大于10个字符！)</label>
+                <div class="controls">
+                    <input id="soilName" type="text" name="soilName" class="text input-large  form-control form-input-width" value="{$soil.soilName}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">土壤系数 (土壤系数为正数！)</label>
+                <div class="controls">
+                    <input id="soilCoeff" type="text"  name="soilCoeff"  class="text input-large  form-control form-input-width" value="{$soil.soilCoeff}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">土壤密度 (土壤半衰期为正整数！)</label>
+                <div class="controls">
+                    <input id="soilDensity" type="text"   name="soilDensity" class="text input-large  form-control form-input-width" value="{$soil.soilDensity}"/>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <button type="submit" class="btn ajax-post" target-form="form-horizontal" onclick="return false;">{:L("_SURE_WITH_SPACE_")}</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+            </div>
+        </form>
+    </div>
+
+<block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:U('Base/index')}');
+</script>
+</block>

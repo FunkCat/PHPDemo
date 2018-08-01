@@ -1,0 +1,111 @@
+<extend name="Base/common" />
+
+<block name="body">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="__JS__/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="__JS__/echarts.js"></script>
+<script type="text/javascript" src="__JS__/hpage.js"></script>
+<script type="text/javascript" src="__JS__/select.js"></script>
+<link rel="stylesheet" type="text/css" href="__CSS__/hpage.css">
+<link rel="stylesheet" type="text/css" href="__CSS__/font-awesome.min.css">
+</head>
+<body>
+	<form action="#" method="post"  >
+		<!-- 搜索框 -->
+		<div id="searchVIEW">
+			<div class="searchBG">
+				<img src="__IMG__/fieldBG.jpg" width="100%" height="504">
+			</div>
+			<div id="searchWIN">
+				<img src="__IMG__/searchbj.png" id="searchWIND">
+					<div style="position:absolute;top:80px;left:10%;color:white;">
+						<label style="font-size:25px;">农业污染评估 &nbsp;</label><label  onclick="showview2()" style="font-size:15px; cursor: pointer;">[精准评估]</label>
+					</div>
+				<div style="position:relative;left:70px;bottom:75px;;display:block;">
+					<select id="mySelect1" class="mySelect" style=""></select>
+					<select id="mySelect2" class="mySelect" style=""></select>
+					<select id="mySelect3" class="mySelect" style=""></select>
+				</div>
+				 <!-- <input name="" type="text" id="searchBTN1" placeholder="搜索从这里开始..." maxlength="40" id="projnames" style="color: rgb(51, 51, 51);color:grey;">  -->
+				<button type="button" class="searchBTN2" name='sub' id='sub' onclick='return calculateAndSave();'></button>
+			
+				</img>
+			<input type="hidden" id="cropId">
+			<input type="hidden" id="soilId">
+			<input type="hidden" id="pesticideId">
+			<input type="hidden" id="isAccurate">
+			</div>
+		</div>
+		<!-- 精准查询弹窗 -->
+		<div id="view_jz" class="showview_jz"  >
+			<div id="assess_jz" >
+			<table>
+				<tr>
+					<td><p class="ptxt">农药使用次数:<br></p><input type="text" id="useCount_r" class="intputdata" style="width:40px;" required="required"><p class="ptxt">次</p></td>
+					<td><p class="ptxt">农药使用量:<br></p><input type="text" class="intputdata" id="useNumber_r" required="required"><p class="ptxt">kg/m2</p></td>
+					<td><p class="ptxt">有效成分含量:<br></p><input type="text" class="intputdata"  id="activePrinciple_p_r" style="width:30px;" required="required"><p class="ptxt">%的</p>
+					<input type="text" class="intputdata"  id="activePrinciple_r" required="required"></td>
+				</tr>
+				<tr>
+					<td><p class="ptxt">土壤受药面积:<br></p><input type="text" class="intputdata"  id="projectedArea" required="required"><p class="ptxt">%</p></td>
+					<td><p class="ptxt">施药方式:<br></p><select id="applyType" style="width:90px;margin-left:-35px;" required="required"></select></td>
+					<td><p class="ptxt">土壤密度:<br></p><input type="text"  class="intputdata" id="soilDensity_r" required="required"><p class="ptxt">kg/m3</p></td>
+				</tr>
+				<tr>
+					<td><p class="ptxt">土壤吸附系数:<br></p><input type="text" class="intputdata"  id="adsorptionCoeff"  required="required"><p class="ptxt">Koc</p></td>
+					<td><p class="ptxt">土壤中半衰期:<br></p><input type="text" class="intputdata" id="halfTime" required="required"><p class="ptxt">days</p></td>
+					<td><p class="ptxt">n天后:<br></p><input type="text" class="intputdata"  id="estimateDays" required="required"><p class="ptxt">days</p></td>
+				</tr>
+			</table>
+			</div>
+		</div>	
+	</form>
+	<!-- 结果报告弹窗 -->
+	<div id="shade" class="shade" style="display:none;" onclick="showview();"></div>
+	<div class="view_close" style="display:none;" onclick="showview();"></div>
+	<div id="view_bg" class="view_bg" style="">
+		<div style="top:10px;margin-left:348px;color:black;">
+			<label style="font-size:25px;">农业污染评估报告 &nbsp;</label>
+		</div>
+		<div style="margin-top:10px;margin-left:20px;width:390px;font-size:16px;">
+			<table style="background-color: #fdfcf2;color:white;background-color: #888;">
+				<tr class="trb" >
+					<td><label id="">农药载入浓度</label></td>
+					<td  class="num" ><p id="load" style="color:black;"></p></td>
+					<td class="unit"><label id="" >mg/m^2</label></td>
+				</tr>
+				<tr class="trb">	
+					<td><label id="">起始土壤残留浓度</label></td>
+					<td class="num"><p id="Csoil" style="color:black;"></p></td>
+					<td class="unit"><label id="" >mg/kg</label></td>
+				</tr>
+				<tr class="trb">		
+					<td><label id=""><p id="edays"></p>天后土壤残留浓度</label></td>
+					<td  class="num"><p id="Ct" style="color:black;"></p></td>
+					<td  class="unit"><label id="" >mg/kg</label></td>
+				</tr>
+			</table>
+		</div>
+	<!-- 曲线图 -->
+	<div style="width: 100%; height: 250px;float:left;">
+	<div id="smoothline"
+		style="width:860px;height: 250px;   position:relative; left:50%;margin-left:-430px;"></div>
+	</div>
+	</div>
+<!--  柱状图 
+	<div
+		style="width: 100%; height: 450px; border: 1px solid red; position: relative; top: 15px; float: left; text-align:center;">
+		<div id="line" style="width: 800px; height: 400px;position:relative; left:50%;margin-left:-400px;"></div>
+	</div>
+	
+	折线图
+	<div style="width: 100%; height: 450px;  border: 1px solid red;float:left;">
+	<div id="container"
+		style="width:800px;height: 450px;   position:relative; left:50%;margin-left:-400px;"></div>
+	</div>  -->
+
+</body>
+</html>
+</block>

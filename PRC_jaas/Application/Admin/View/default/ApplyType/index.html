@@ -1,0 +1,113 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+<block name="body">
+
+    <!-- 标题栏 -->
+    <div class="main-title">
+        <h2>施药方式管理</h2>
+    </div>
+    <div class="clearfix">
+        <div class="col-xs-10">
+            <a id="add-group" class="btn" href="{:U('ApplyType/createApplyType')}">{:L('_ADD_')}</a>
+            <button class="btn ajax-post" url="{:U('ApplyType/changeStatus',array('method'=>'resumep'))}"
+                    target-form="ids">{:L('_ENABLED_')}
+            </button>
+            <button class="btn ajax-post" url="{:U('ApplyType/changeStatus',array('method'=>'forbidp'))}"
+                    target-form="ids">{:L('_DISABLE_')}
+            </button>
+            <button class="btn ajax-post confirm" url="{:U('ApplyType/changeStatus',array('method'=>'deletep'))}"
+                    target-form="ids">{:L('_DELETE_')}
+            </button>
+
+
+        </div>
+
+        <!-- 高级搜索 -->
+        <div class="search-form  col-xs-2 text-right">
+            <div class="input-group">
+                <input type="text" name="applyName" class="search-input form-control" value="{:I('applyName')}"
+                       placeholder="输入施药方式名称">
+                                 <span class="input-group-btn">  <a class="btn btn-default" href="javascript:;" id="search" url="{:U('index')}"><i class="icon-search"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 数据列表 -->
+    <div class="data-table with-padding">
+        <table class="table table-bordered table-striped ">
+            <thead>
+            <tr>
+                <th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+                <th class="">施药方式ID</th>
+                <th class="">施药方式名(十字符以内)</th>
+                <th class="">施药方式浸入深度</th>
+                <th class="">创建日期</th>
+                <th class="">状态</th>
+                <th class="">操作</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <notempty name="_list">
+                <volist name="_list" id="vo">
+                    <tr>
+                        <td><input class="ids" type="checkbox" name="id[]" value="{$vo.applyId}"/></td>
+                        <td>{$vo.applyId}</td>
+                        <td>{$vo.applyName}</td>
+                        <td>{$vo.deepth}</td>
+                        <td><span>{$vo.createTime}</span></td>
+                        <td>{$vo.status_text}</td>
+                        <td>
+                            <eq name="vo.status" value="1">
+                                <a href="{:U('ApplyType/changeStatus?method=forbidP&id='.$vo['applyId'])}"
+                                   class="ajax-get">{:L('_DISABLE_')}</a>
+                                <else/>
+                                <a href="{:U('ApplyType/changeStatus?method=resumeP&id='.$vo['applyId'])}"
+                                   class="ajax-get">{:L('_ENABLE_')}</a>
+                            </eq>                       
+                            <a href="{:U('ApplyType/changeStatus?method=deleteP&id='.$vo['applyId'])}"
+                               class="confirm ajax-get">{:L('_DELETE_')}</a>
+                            <a id="add-group" href="{:U('ApplyType/createApplyType&id='.$vo['applyId'])}"
+                               class="btn">编辑</a>
+                        </td>
+                    </tr>
+                </volist>
+                <else/>
+                <td colspan="9" class="text-center">{:L('_ADMIN_USER_EMPTY_')}</td>
+            </notempty>
+            </tbody>
+        </table>
+    </div>
+
+</block>
+<block name="script">
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js"></script>
+
+    <script type="text/javascript">
+        //搜索功能
+        $("#search").click(function () {
+            var url = $(this).attr('url');
+            var query = $('.search-form').find('input').serialize();
+            query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g, '');
+            query = query.replace(/^&/g, '');
+            if (url.indexOf('?') > 0) {
+                url += '&' + query;
+            } else {
+                url += '?' + query;
+            }
+            window.location.href = url;
+        });
+        //回车搜索
+        $(".search-input").keyup(function (e) {
+            if (e.keyCode === 13) {
+                $("#search").click();
+                return false;
+            }
+        });
+        //导航高亮
+        highlight_subnav("{:U('User/index')}");
+    </script>
+</block>

@@ -1,0 +1,52 @@
+<extend name="Public/base" />
+<!-- 管理员{:L("_USER_GROUP_")}新增和编辑页面 -->
+<block name="body">
+<script type="text/javascript" src="__JS__/jquery-1.9.0.js"></script>
+<!-- <script type="text/javascript" src="__JS__/validate.js"></script> -->
+
+	<div class="main-title">
+		<h2>{$title}</h2>
+	</div>
+    <div class="with-padding">
+        <form action="{:U('Crop/writecrop')}" enctype="application/x-www-form-urlencoded" method="POST"
+              class="form-horizontal" id="con"  onsubmit="return SubmitCK()">
+             <div class="form-item">
+                <label for="auth-title" class="item-label">作物ID (不可编辑！)</label>
+                <div class="controls">
+                    <input type="text" readonly="readonly"  class="text input-large  form-control form-input-width" name="cropId" value="{$crop.cropId}" />
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">作物名  (名称不得大于10个字符！)</label>
+                <div class="controls">
+                    <input id="cropName" type="text" name="cropName" class="text input-large  form-control form-input-width" value="{$crop.cropName}"/>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label for="auth-title" class="item-label">投影面积% (投影面积为0-100的整数)</label>
+                <div class="controls">
+                    <input id="projectedArea" type="text"  name="projectedArea"  class="text input-large  form-control form-input-width" value="{$crop.projectedArea}"/>
+                </div>
+            </div>
+            <div class="form-item">
+                <label for="auth-title" class="item-label">其他</label>
+                <div class="controls">
+                    <input id="remarks" type="text"  name="remarks"  class="text input-large  form-control form-input-width" value="{$crop.remarks}"/>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <button type="submit" class="btn ajax-post" target-form="form-horizontal" >{:L("_SURE_WITH_SPACE_")}</button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">{:L("_RETURN_WITH_SPACE_")}</button>
+            </div>
+        </form>
+    </div>
+
+<block>
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    //导航高亮
+    highlight_subnav('{:U('Base/index')}');
+</script>
+</block>
